@@ -4,7 +4,7 @@ $curl = curl_init();
 
 $data = [
     "channel_id" => getenv('PLUGIN_CHANNEL_ID'),
-    "message" => getenv('PLUGIN_MSG'),
+    "message" => getenv('build.status'),
 ];
 
 curl_setopt_array($curl, array(
