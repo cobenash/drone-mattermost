@@ -8,7 +8,7 @@ $data = [
 ];
 
 curl_setopt_array($curl, array(
-    CURLOPT_URL => getenv('PLUGIN_URL')."/api/v4/posts",
+    CURLOPT_URL => getenv('PLUGIN_URL') . "/api/v4/posts",
     CURLOPT_RETURNTRANSFER => true,
     CURLOPT_ENCODING => "",
     CURLOPT_MAXREDIRS => 10,
