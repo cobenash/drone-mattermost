@@ -20,5 +20,6 @@ $ docker run --rm \
 -e PLUGIN_TOKEN=o7kkk5qszffrjfz3ygjn8eqxse \
 -e PLUGIN_CHANNEL_ID=63i6qpnakj8e5yqokeaz6tg9aa \
 -e PLUGIN_URL=https://chat.hellosanta.tw \
+-e DRONE_BUILD_STATUS=success \
 plugin/mattermost
 ```
