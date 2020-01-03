@@ -1,5 +1,5 @@
-FROM php:7.4-cli
-RUN mkdir /usr/src/myapp
-COPY . /usr/src/myapp
-WORKDIR /usr/src/myapp
-CMD [ "php", "./post.php" ]
+FROM alpine
+ADD post.sh /bin/
+RUN chmod +x /bin/post.sh
+RUN apk -Uuv add curl ca-certificates
+ENTRYPOINT /bin/post.sh
