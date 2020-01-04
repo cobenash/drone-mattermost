@@ -37,6 +37,16 @@ message="${message//\[build.job_started\]/$job_started}"
 message="${message//\[build.job_finished\]/$job_finished}"
 message="${message//\[build.number\]/$number}"
 
+## Notify specific user. Only work for PLUGIN_ONLY_MATCH_EMAIL=TRUE
+NotifyEmail=$(echo $to | cut -d"|" -f 2)
+NotifyUserName=$(echo $to | cut -d"|" -f 1)
+echo $author_email
+echo $NotifyEmail
+
+if [ "$author_email" = "$NotifyEmail" ]; then 
+  echo 'I am in'
+  message="@$NotifyUserName $message"
+fi;
 
 # Send Message
 apiURL="$url/api/v4/posts";

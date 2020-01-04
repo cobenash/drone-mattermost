@@ -1,11 +1,37 @@
 # Drone Mattermost Plugin
-A plugin which can provide mattermost notify
+The main goal of this Plugin is to provide an integration between Drone and Mattermost.
+We can use this Plugin as one of the CI/CD steps and send notifications to the specific channel with a custom message and mention the author in the string.
 
 ## How to use drone Mattermost
-With this plugin, we can decide whether we can send message to channel.
+There are some environment variables need to set up. Please follow the following table, and see the description.
 
-Therefore, we need to create bot account first and use the bot account id as the main input.
 
+### Docker Environment Variable
+| Parameter | Example value | Description |
+| -------- | -------- | -------- |
+|   url   |   https://your-mattermost-link   | please remove the last slash|
+| token | o7kkk5qszffroxfgvgjn8eqxse | You can get one by create a bot account in Mattermost system backend.|
+| channel_id | 63i6qpnasscfgokeaz6tg9aa|Please check the channel overview page|
+| message |Build Number:[build.number] Build Status:[build.status]| You can use token in the string. Please look at the following table. |
+
+### Message Token
+
+
+| Token | Description|
+| -------- | -------- |
+| [build.owner]    |  Owner of the repo |
+| [build.repo_name]|   |
+| [build.commit_sha]    |   |
+| [build.branch]    |   |
+| [build.author_email]    |   |
+| [build.commit_message]    |   |
+| [build.status]    |   |
+| [build.link]    |   |
+| [build.job_started]    |   |
+| [build.job_finished]    |   |
+| [build.number]    |   |
+
+### docker-compose example
 
 ```yaml=
 pipeline:
@@ -15,21 +41,19 @@ pipeline:
     url: https://your-mattermost-url 
     token: XXXXX
     channel_id: XXXX
-    bot_id: XXXX
     message: XXXX
-    props: XXXXX
 ```
 
 
-## Testing for sending msg to channel
+### docker run example
 ```shell=
 $ docker run --rm \
 -e PLUGIN_TOKEN=o7kkk5qszffrjfz3ygjn8eqxse \
 -e PLUGIN_CHANNEL_ID=63i6qpnakj8e5yqokeaz6tg9aa \
--e PLUGIN_URL=https://chat.hellosanta.tw \
--e PLUGIN_TO=victor \
+-e PLUGIN_URL=https://your-awesome-mattermost-url \
+-e PLUGIN_TO="victor|victor.yang@hellosanta.com.tw" \
 -e PLUGIN_ONLY_MATCH_EMAIL=true \
--e PLUGIN_MESSAGE="專案:[build.repo_name] 執行編號:[build.number]  Msg:[build.commit_message]  建立狀態:[build.status]  查看連結:[build.link]" \
+-e PLUGIN_MESSAGE="Project:[build.repo_name] Build Number:[build.number]  Message:[build.commit_message]  Build Status:[build.status]  Build Link:[build.link] Author：[build.author_email]" \
 -e DRONE_REPO_OWNER=hellosanta \
 -e DRONE_REPO_NAME=sampel-project \
 -e DRONE_COMMIT_SHA=45da7659390f729d97068701718adc21d81c0fd5 \
