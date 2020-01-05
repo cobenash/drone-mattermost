@@ -13,6 +13,7 @@ There are some environment variables need to set up. Please follow the following
 | token | o7kkk5qszffroxfgvgjn8eqxse | You can get one by create a bot account in Mattermost system backend.|
 | channel_id | 63i6qpnasscfgokeaz6tg9aa|Please check the channel overview page|
 | message |Build Number:[build.number] Build Status:[build.status]| You can use token in the string. Please look at the following table. |
+| to |[victor:victor.yang@hellosanta.com.tw,eddie:eddie.liu@hellosanta.com.tw]|This variable is only used for |
 
 ### Message Token
 
@@ -51,7 +52,7 @@ $ docker run --rm \
 -e PLUGIN_TOKEN=o7kkk5qszffrjfz3ygjn8eqxse \
 -e PLUGIN_CHANNEL_ID=63i6qpnakj8e5yqokeaz6tg9aa \
 -e PLUGIN_URL=https://your-awesome-mattermost-url \
--e PLUGIN_TO="victor|victor.yang@hellosanta.com.tw" \
+-e PLUGIN_TO='["victor:victor.yang@hellosanta.com.tw", "eddie:eddie.liu@hellosanta.com.tw"]' \
 -e PLUGIN_ONLY_MATCH_EMAIL=true \
 -e PLUGIN_MESSAGE="Project:[build.repo_name] Build Number:[build.number]  Message:[build.commit_message]  Build Status:[build.status]  Build Link:[build.link] Author：[build.author_email]" \
 -e DRONE_REPO_OWNER=hellosanta \
