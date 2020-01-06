@@ -37,8 +37,24 @@ message="${message//\[build.job_started\]/$job_started}"
 message="${message//\[build.job_finished\]/$job_finished}"
 message="${message//\[build.number\]/$number}"
 
+# Send Message
+function send_message() {
+  apiURL="$url/api/v4/posts";
+  full_message=$( jq -n \
+    --arg channel_id "$channel_id" \
+    --arg message "$message" \
+    '{channel_id: $channel_id,message: $message}')
+  curl -i \
+      -X "POST" \
+      -H "Content-Type: application/json" \
+      -H "Authorization: Bearer ${token}" \
+      -d "${full_message}" \
+      $apiURL
+}
+
+
 ## Notify specific user. Only work for PLUGIN_ONLY_MATCH_EMAIL=TRUE
-if [ $only_match_email ]; then
+if [ "$only_match_email" = true ]; then
   count=$(echo $to | jq '. | length')
   for i in $(seq 1 $count);
   do
@@ -49,20 +65,10 @@ if [ $only_match_email ]; then
     NotifyUserName=$(echo $userInfo | cut -d":" -f 1)
     if [ "$author_email" = "$NotifyEmail" ]; then 
       message="@$NotifyUserName $message"
+      send_message
     fi;
   done
+else
+  send_message
 fi
 
-# Send Message
-apiURL="$url/api/v4/posts";
-
-full_message=$( jq -n \
-  --arg channel_id "$channel_id" \
-  --arg message "$message" \
-  '{channel_id: $channel_id,message: $message}')
-curl -i \
-    -X "POST" \
-    -H "Content-Type: application/json" \
-    -H "Authorization: Bearer ${token}" \
-    -d "${full_message}" \
-    $apiURL
